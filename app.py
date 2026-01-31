@@ -1,5 +1,3 @@
-
-
 from flask import Flask, render_template, request, redirect, url_for
 import todo
 
@@ -29,3 +27,5 @@ def complete(task_id):
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
