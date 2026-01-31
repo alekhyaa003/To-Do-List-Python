@@ -2,138 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Smart To-Do Manager</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #1f4037, #99f2c8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .card {
-            background: white;
-            width: 420px;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"] {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-
-        button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .add-btn {
-            background: #1f4037;
-            color: white;
-        }
-
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        li {
-            background: #f4f4f4;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .completed {
-            text-decoration: line-through;
-            color: gray;
-        }
-
-        .actions a {
-            margin-left: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            padding: 5px 8px;
-            border-radius: 5px;
-        }
-
-        .complete {
-            background: #4CAF50;
-            color: white;
-        }
-
-        .delete {
-            background: #f44336;
-            color: white;
-        }
-
-        .empty {
-            text-align: center;
-            color: gray;
-            padding: 15px;
-        }
-    </style>
+    <title>To-Do App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 
-<div class="card">
-    <h1>🚀 Smart To-Do</h1>
+<div class="container">
+    <h1>📝 To-Do List</h1>
 
     <!-- Add Task Form -->
-    <form action="/add" method="POST">
+    <form action="/add" method="post" class="task-form">
         <input type="text" name="task" placeholder="Enter new task..." required>
-        <button class="add-btn" type="submit">Add</button>
+        <button type="submit">Add</button>
     </form>
 
     <!-- Task List -->
-    <ul>
-        {% if tasks %}
-            {% for task in tasks %}
-                <li>
-                    <span class="{% if task.startswith('✔️') %}completed{% endif %}">
-                        {{ task }}
-                    </span>
+    {% if tasks %}
+    <ul class="task-list">
+        {% for task in tasks %}
+        <li>
+            <span class="{% if task.startswith('✔️') %}done{% endif %}">
+                {{ task }}
+            </span>
 
-                    <div class="actions">
-                        <a href="/complete/{{ loop.index0 }}" class="complete">Done</a>
-                        <a href="/delete/{{ loop.index0 }}" class="delete">Delete</a>
-                    </div>
-                </li>
-            {% endfor %}
-        {% else %}
-            <div class="empty">✅ No tasks available!</div>
-        {% endif %}
+            <div class="actions">
+                <a href="/complete/{{ loop.index0 }}">✔</a>
+                <a href="/delete/{{ loop.index0 }}">❌</a>
+            </div>
+        </li>
+        {% endfor %}
     </ul>
+    {% else %}
+        <p style="text-align:center; color:gray;">No tasks yet. Add one!</p>
+    {% endif %}
 
 </div>
 
 </body>
 </html>
-
