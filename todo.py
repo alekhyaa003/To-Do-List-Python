@@ -1,4 +1,4 @@
-todo.py: import os
+import os
 
 TODO_FILE = "tasks.txt"
 
